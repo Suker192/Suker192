@@ -3,30 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Um Presente para Você!</title>
+    <title>Um Presente Especial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet">
     <style>
-        /* Fundo verde com degradê preto */
+        /* Fundo Verde Folha com degradê suave para o preto */
         body {
             margin: 0;
             padding: 0;
             height: 100vh;
-            background: linear-gradient(to bottom, #11998e, #000000);
+            /* Verde folha (#2ecc71) degradê para preto */
+            background: linear-gradient(to bottom, #2ecc71, #1a1a1a);
             display: flex;
+            flex-direction: column; /* Organiza os elementos em coluna */
             justify-content: center;
             align-items: center;
             overflow: hidden;
             font-family: 'Arial', sans-serif;
+            color: white;
         }
 
-        /* Container que centraliza tudo */
+        /* Container principal */
         .container {
             position: relative;
             width: 300px;
             height: 300px;
             cursor: pointer;
+            margin-bottom: 20px; /* Espaço para a mensagem abaixo */
         }
 
-        /* Estilo da foto do amigo */
+        /* Estilo da foto do amigo (REMOVIDA A BORDA BRANCA) */
         .photo {
             position: absolute;
             top: 0;
@@ -35,15 +40,15 @@
             height: 100%;
             object-fit: cover;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            /* Sombra suave para dar destaque, mas sem borda */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
             z-index: 1;
-            border: 5px solid #fff;
             box-sizing: border-box;
         }
 
-        /* Classe ativada no clique para mostrar a foto */
+        /* Classe ativada no terceiro clique para mostrar a foto */
         .photo.revealed {
             opacity: 1;
         }
@@ -55,14 +60,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #e74c3c;
+            background-color: #e74c3c; /* Vermelho Noel */
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             z-index: 2;
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Animação de queda suave */
+            /* Animação de queda suave ao final */
             transition: transform 1s cubic-bezier(0.55, 0.085, 0.68, 0.53), opacity 1s;
         }
 
@@ -72,7 +77,7 @@
             position: absolute;
             width: 40px;
             height: 100%;
-            background-color: #f1c40f;
+            background-color: #f1c40f; /* Dourado */
         }
 
         /* Fita horizontal do presente */
@@ -81,7 +86,7 @@
             position: absolute;
             width: 100%;
             height: 40px;
-            background-color: #f1c40f;
+            background-color: #f1c40f; /* Dourado */
         }
 
         /* Texto no presente */
@@ -96,13 +101,45 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            pointer-events: none; /* Evita bugar o clique */
+            pointer-events: none;
         }
 
-        /* Classe que faz o presente cair e girar */
+        /* Animação de tremer (shake) */
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+
+        /* Classe que aplica o tremor */
+        .shake-animation {
+            animation: shake 0.5s;
+            animation-iteration-count: 1;
+        }
+
+        /* Classe que faz o presente cair e girar (no 3º clique) */
         .gift-box.fall {
             transform: translateY(150vh) rotate(45deg);
             opacity: 0;
+        }
+
+        /* Estilo da Mensagem Carinhosa */
+        .message {
+            font-family: 'Caveat', cursive; /* Fonte manuscrita */
+            font-size: 24px;
+            text-align: center;
+            max-width: 80%;
+            margin-top: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            opacity: 0.9;
         }
     </style>
 </head>
@@ -112,9 +149,11 @@
         <img src="Presente.jpg" alt="Foto Surpresa" class="photo" id="friendPhoto">
         
         <div class="gift-box" id="giftBox">
-            <p>Clique para Abrir!</p>
+            <p id="clickText">Aperte 3 vezes!</p>
         </div>
     </div>
+
+    <p class="message">Não sou muito bom com arte a dedo, mas fiz com todo carinho</p>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
@@ -122,55 +161,70 @@
         const giftBox = document.getElementById('giftBox');
         const friendPhoto = document.getElementById('friendPhoto');
         const giftContainer = document.getElementById('giftContainer');
+        const clickText = document.getElementById('clickText');
 
-        // Carrega os áudios
-        const somClique = new Audio('clique.mp3');
+        // Carrega a música de fundo (supondo que o arquivo ainda se chama musica.mp3)
         const musicaFundo = new Audio('musica.mp3');
 
+        // Contador de cliques
+        let cliqueCount = 0;
+
         giftContainer.addEventListener('click', () => {
-            // Desativa os cliques extras
-            giftContainer.style.pointerEvents = 'none';
+            cliqueCount++;
 
-            // Toca o som do clique (ex: um efeito sonoro de caixa abrindo ou "pop")
-            somClique.play();
+            // Reseta a animação de shake para que ela possa rodar de novo
+            giftBox.classList.remove('shake-animation');
+            void giftBox.offsetWidth; // Truque para forçar o navegador a reiniciar a animação
 
-            // Faz a caixa de presente cair
-            giftBox.classList.add('fall');
+            if (cliqueCount < 3) {
+                // Primeiros dois cliques: o presente treme
+                giftBox.classList.add('shake-animation');
+                // Atualiza o texto para dar feedback
+                clickText.innerText = `Faltam ${3 - cliqueCount}!`;
+            } else if (cliqueCount === 3) {
+                // Terceiro clique: Revelação!
+                
+                // Desativa os cliques extras
+                giftContainer.style.pointerEvents = 'none';
 
-            // Revela a foto que está atrás
-            friendPhoto.classList.add('revealed');
+                // Faz a caixa de presente cair
+                giftBox.classList.add('fall');
 
-            // Dispara a chuva de confetes e a música após um pequeno delay (200ms)
-            setTimeout(() => {
-                // Inicia a música de fundo
-                musicaFundo.play();
+                // Revela a foto que está atrás
+                friendPhoto.classList.add('revealed');
 
-                var duration = 4 * 1000; // Confetes duram 4 segundos
-                var end = Date.now() + duration;
+                // Dispara a chuva de confetes e a música após um pequeno delay
+                setTimeout(() => {
+                    // Inicia a música de fundo
+                    musicaFundo.play();
 
-                (function frame() {
-                    // Confetes da esquerda
-                    confetti({
-                        particleCount: 5,
-                        angle: 60,
-                        spread: 55,
-                        origin: { x: 0 },
-                        colors: ['#2ecc71', '#f1c40f', '#e74c3c', '#3498db']
-                    });
-                    // Confetes da direita
-                    confetti({
-                        particleCount: 5,
-                        angle: 120,
-                        spread: 55,
-                        origin: { x: 1 },
-                        colors: ['#2ecc71', '#f1c40f', '#e74c3c', '#3498db']
-                    });
+                    var duration = 5 * 1000; // Confetes duram 5 segundos
+                    var end = Date.now() + duration;
 
-                    if (Date.now() < end) {
-                        requestAnimationFrame(frame);
-                    }
-                }());
-            }, 200); 
+                    (function frame() {
+                        // Confetes da esquerda
+                        confetti({
+                            particleCount: 7,
+                            angle: 60,
+                            spread: 60,
+                            origin: { x: 0 },
+                            colors: ['#2ecc71', '#f1c40f', '#e74c3c', '#ffffff']
+                        });
+                        // Confetes da direita
+                        confetti({
+                            particleCount: 7,
+                            angle: 120,
+                            spread: 60,
+                            origin: { x: 1 },
+                            colors: ['#2ecc71', '#f1c40f', '#e74c3c', '#ffffff']
+                        });
+
+                        if (Date.now() < end) {
+                            requestAnimationFrame(frame);
+                        }
+                    }());
+                }, 300);
+            }
         });
     </script>
 </body>
