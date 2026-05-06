@@ -8,100 +8,68 @@
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet">
 
 <style>
-/* FUNDO ANIMADO */
-body {
+/* FUNDO FIXO - ADEUS TELA BRANCA */
+html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
-    background: linear-gradient(-45deg, #0f0f0f, #1e3a2b, #0a1f13, #0f0f0f);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
+    background: radial-gradient(circle at center, #1e3a2b 0%, #0f0f0f 100%);
+    background-attachment: fixed;
     font-family: Arial, sans-serif;
     color: white;
     overflow-x: hidden;
 }
 
-@keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-/* EFEITO LIQUID GLASS (GLASSMORPHISM) */
+/* EFEITO LIQUID GLASS */
 .glass {
     background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
 /* INTRO */
 .intro-screen {
     position: fixed;
-    width: 100%;
-    height: 100vh;
+    inset: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 20;
+    z-index: 100;
     transition: 1s;
 }
 
 .intro-screen p {
     font-family: 'Caveat', cursive;
-    font-size: 32px;
+    font-size: 28px;
     text-align: center;
     padding: 20px;
-    margin: 0 20px;
 }
 
-.fade {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: 1.2s ease;
-}
-.fade.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.start-btn {
-    margin-top: 30px;
-    padding: 12px 40px;
-    font-size: 18px;
-    color: #fff;
-    cursor: pointer;
-    transition: 0.3s ease;
-}
-.start-btn:hover {
-    background: rgba(255, 255, 255, 0.15);
-    transform: scale(1.05);
-}
-
-/* DESENHO */
+/* DESENHO DIGITAL (AGORA FIXO) */
 .digital-screen {
     position: fixed;
-    width: 100%;
-    height: 100vh;
-    display: flex;
+    inset: 0;
+    display: none;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    opacity: 0;
-    transition: 1.5s;
-    z-index: 15;
+    z-index: 50;
+    transition: 1s;
 }
 
 .digital-img {
-    width: 280px;
+    width: 300px;
     max-width: 85%;
     border-radius: 15px;
-    box-shadow: 0 0 20px rgba(46, 204, 113, 0.3);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     opacity: 0;
-    transform: scale(1.4);
-    transition: 2s ease;
+    transform: scale(0.9);
+    transition: 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
+
 .digital-img.show {
     opacity: 1;
     transform: scale(1);
@@ -110,20 +78,17 @@ body {
 /* VINIL */
 .vinil-container {
     position: fixed;
-    bottom: -15px;
-    left: -15px;
-    width: 120px;
-    height: 120px;
+    bottom: 20px;
+    left: 20px;
+    width: 100px;
+    height: 100px;
     opacity: 0;
-    transition: 1.5s ease;
-    z-index: 5;
-    pointer-events: none;
+    z-index: 80;
+    transition: 1s;
 }
 .vinil {
     width: 100%;
-    height: 100%;
     animation: spin 4s linear infinite;
-    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.5));
 }
 
 @keyframes spin {
@@ -131,328 +96,197 @@ body {
     to { transform: rotate(360deg); }
 }
 
-/* MAIN */
-.main {
+/* BOTÕES */
+button {
+    margin-top: 25px;
+    padding: 12px 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 30px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    backdrop-filter: blur(5px);
+}
+button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+/* CONTEÚDO PRINCIPAL (CAIXA) */
+.main-content {
     display: none;
     flex-direction: column;
     align-items: center;
+    padding: 50px 20px;
     min-height: 100vh;
-    padding-top: 10vh;
-    z-index: 10;
 }
 
-/* PRESENTE */
-.container {
+.gift-container {
     position: relative;
     width: 280px;
-    max-width: 90%;
     height: 280px;
     cursor: pointer;
-    margin-bottom: 20px;
-}
-
-/* CARTA DE VIDRO (Substituiu a foto) */
-.glass-card {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    opacity: 0;
-    transition: 0.8s ease;
-    padding: 20px;
-    box-sizing: border-box;
-}
-.glass-card.revealed { 
-    opacity: 1; 
-    transform: scale(1.05);
 }
 
 .gift-box {
     position: absolute;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    inset: 0;
+    background: #e74c3c;
     border-radius: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: 1s cubic-bezier(0.25, 0.8, 0.25, 1);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     z-index: 2;
+    transition: 1s;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+}
+.gift-box::before { content: ''; position: absolute; width: 40px; height: 100%; background: #f1c40f; }
+.gift-box::after { content: ''; position: absolute; width: 100%; height: 40px; background: #f1c40f; }
+
+.revealed-card {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    opacity: 0;
+    transition: 0.8s;
 }
 
-.gift-box::before {
-    content: '';
-    position: absolute;
-    width: 45px;
-    height: 100%;
-    background: linear-gradient(to right, #f1c40f, #f39c12);
-}
-.gift-box::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 45px;
-    background: linear-gradient(to bottom, #f1c40f, #f39c12);
-}
-#clickText {
-    position: relative;
-    z-index: 3;
-    font-weight: bold;
-    font-size: 20px;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-}
-
+/* ANIMAÇÕES */
+.shake { animation: shake 0.4s; }
 @keyframes shake {
-    0%, 100% { transform: translateX(0) rotate(0); }
-    25% { transform: translateX(-5px) rotate(-3deg); }
-    50% { transform: translateX(5px) rotate(3deg); }
-    75% { transform: translateX(-5px) rotate(-3deg); }
+    0%, 100% { transform: rotate(0); }
+    25% { transform: rotate(-5deg); }
+    75% { transform: rotate(5deg); }
 }
-.shake { animation: shake 0.4s ease-in-out; }
+.fall { transform: translateY(150vh) rotate(45deg); opacity: 0; }
 
-.fall {
-    transform: translateY(120vh) rotate(45deg);
-    opacity: 0;
-}
+.message { font-family: 'Caveat', cursive; font-size: 26px; opacity: 0; transition: 1s; margin: 10px 0; }
 
-/* TEXTOS DA CARTA */
-.message {
-    font-family: 'Caveat', cursive;
-    font-size: 28px;
-    margin: 10px 0;
-    opacity: 0;
-    transition: 1s ease;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-}
-
-/* BOTÃO MAIS */
-#moreBtn {
-    margin-top: 30px;
-    padding: 10px 30px;
-    font-size: 16px;
-    color: white;
-    opacity: 0;
-    transition: opacity 1s ease, transform 0.3s ease;
-    cursor: pointer;
-}
-#moreBtn:hover {
-    transform: scale(1.1);
-    background: rgba(255, 255, 255, 0.15);
-}
-
-/* EXTRA SCREEN */
+/* TELA EXTRA */
 #extraScreen {
     display: none;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     height: 100vh;
     text-align: center;
-    padding: 20px;
 }
-
-.extra-phrase {
-    font-family: 'Caveat', cursive;
-    font-size: 34px;
-    opacity: 0;
-    transition: 1.5s ease;
-    margin-bottom: 30px;
-}
-
-.final-box {
-    width: 220px;
-    max-width: 80%;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: 1.5s ease;
-    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.4));
-}
-.final-box.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.back-btn {
-    margin-top: 40px;
-    color: white;
-    cursor: pointer;
-}
-
 </style>
 </head>
-
 <body>
 
-<div class="intro-screen glass" id="intro" style="border-radius: 0; border: none; box-shadow: none;">
-    <p class="fade" id="introText">
-        Não consegui te ver pessoalmente… então fiz isso aqui
-    </p>
-    <button class="fade start-btn glass" id="startBtn">Abrir Presente</button>
+<div class="intro-screen" id="intro">
+    <p>Não consegui te ver pessoalmente...<br>então fiz isso aqui.</p>
+    <button id="startBtn">Abrir</button>
 </div>
 
 <div class="digital-screen" id="digitalScreen">
-    <img src="digital.png" class="digital-img" id="digitalImg" alt="Desenho Digital">
+    <img src="digital.png" class="digital-img" id="digitalImg">
+    <button id="nextToGift" style="opacity:0; transition: 1s;">Ver Presente ➔</button>
 </div>
 
 <div class="vinil-container" id="vinilContainer">
-    <img src="vinil.png" class="vinil" alt="Vinil tocando">
+    <img src="vinil.png" class="vinil">
 </div>
 
-<div class="main" id="mainContent">
-    <div class="container" id="giftContainer">
-        
-        <div class="glass glass-card" id="glassCard">
-            <p class="message" id="msg1">Feliz aniversário, irmão 🎉</p>
-            <p class="message" id="msg2">Tu é importante pra caramba pra mim</p>
-            <p class="message" id="msg3">Isso aqui é só uma parte…</p>
+<div class="main-content" id="mainContent">
+    <div class="gift-container" id="giftContainer">
+        <div class="glass revealed-card" id="revealedCard">
+            <p class="message" id="m1">Feliz aniversário, irmão! 🎉</p>
+            <p class="message" id="m2">Tu é importante demais pra mim.</p>
+            <p class="message" id="m3">Isso aqui é só o começo...</p>
         </div>
-
         <div class="gift-box" id="giftBox">
-            <p id="clickText">Aperte 3 vezes!</p>
+            <b id="clickText">Aperte 3 vezes!</b>
         </div>
     </div>
-
-    <button id="moreBtn" class="glass">mais</button>
+    <button id="moreBtn" style="display:none;">mais</button>
 </div>
 
 <div id="extraScreen">
-    <p class="extra-phrase" id="extraPhrase">
-        Eu queria muito te entregar essa caixa...<br>
-        mas de algum jeito,<br>
-        <b>algum dia ela vai chegar até você.</b>
-    </p>
-    <img src="caixa.png" class="final-box" id="finalBox" alt="Caixa de presente">
-    <button onclick="voltar()" class="glass back-btn">voltar</button>
+    <p class="message" style="opacity:1; font-size: 32px;">Algum dia essa caixa vai chegar até você.</p>
+    <img src="caixa.png" style="width: 200px; margin-top: 20px;">
+    <button onclick="location.reload()">Recomeçar</button>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <script>
-// Elementos Intro e Tela
-const introText = document.getElementById('introText');
+const musica = new Audio('aero.mp3');
+musica.loop = true;
+
 const startBtn = document.getElementById('startBtn');
-const intro = document.getElementById('intro');
 const digitalScreen = document.getElementById('digitalScreen');
 const digitalImg = document.getElementById('digitalImg');
-const vinilContainer = document.getElementById('vinilContainer');
-const main = document.getElementById('mainContent');
+const nextBtn = document.getElementById('nextToGift');
+const mainContent = document.getElementById('mainContent');
 
-// Áudio
-const musicaIntro = new Audio('aero.mp3');
-musicaIntro.loop = true; // Deixa o áudio tocando em loop
-
-// Animações de entrada
-setTimeout(() => introText.classList.add('show'), 200);
-setTimeout(() => startBtn.classList.add('show'), 1800);
-
+// 1. INÍCIO
 startBtn.onclick = () => {
-    musicaIntro.play(); // Inicia e não para mais
-    intro.style.opacity = 0;
-
+    musica.play();
+    document.getElementById('intro').style.opacity = '0';
     setTimeout(() => {
-        intro.style.display = 'none';
-        digitalScreen.style.opacity = 1;
-        vinilContainer.style.opacity = 1; // Revela o vinil girando
-
-        setTimeout(() => digitalImg.classList.add('show'), 200);
-
-        // Confetes intro
-        let end = Date.now() + 3000;
-        (function frame() {
-            confetti({ particleCount: 6, angle: 60, spread: 70, origin: { x: 0 }, colors: ['#2ecc71', '#ffffff'] });
-            confetti({ particleCount: 6, angle: 120, spread: 70, origin: { x: 1 }, colors: ['#2ecc71', '#ffffff'] });
-            if (Date.now() < end) requestAnimationFrame(frame);
-        })();
-
+        document.getElementById('intro').style.display = 'none';
+        digitalScreen.style.display = 'flex';
+        document.getElementById('vinilContainer').style.opacity = '1';
+        
         setTimeout(() => {
-            digitalScreen.style.opacity = 0;
-            
-            setTimeout(() => {
-                digitalScreen.style.display = 'none'; // Resolve o bug da tela invisível
-                main.style.display = 'flex';
-            }, 800);
-        }, 4000);
+            digitalImg.classList.add('show');
+            nextBtn.style.opacity = '1'; // Botão aparece depois do desenho
+        }, 500);
     }, 1000);
 };
 
-/* LÓGICA DO PRESENTE */
-const box = document.getElementById('giftBox');
-const glassCard = document.getElementById('glassCard');
-const container = document.getElementById('giftContainer');
-const clickText = document.getElementById('clickText');
-
-const msg1 = document.getElementById('msg1');
-const msg2 = document.getElementById('msg2');
-const msg3 = document.getElementById('msg3');
-const moreBtn = document.getElementById('moreBtn');
-
-let clicks = 0;
-
-container.addEventListener('click', () => {
-    clicks++;
-
-    // Reinicia a animação de tremor
-    box.classList.remove('shake');
-    void box.offsetWidth; 
-
-    if (clicks < 3) {
-        box.classList.add('shake');
-        clickText.innerText = `Faltam ${3 - clicks}!`;
-    }
-
-    if (clicks === 3) {
-        container.style.pointerEvents = 'none'; // Impede mais cliques
-        box.classList.add('fall');
-        glassCard.classList.add('revealed');
-
-        // Mais confetes para a revelação
-        let end = Date.now() + 4000;
-        (function frame() {
-            confetti({ particleCount: 8, angle: 60, spread: 60, origin: { x: 0 } });
-            confetti({ particleCount: 8, angle: 120, spread: 60, origin: { x: 1 } });
-            if (Date.now() < end) requestAnimationFrame(frame);
-        })();
-
-        // Revela as mensagens sequencialmente dentro do card de vidro
-        setTimeout(() => msg1.style.opacity = 1, 800);
-        setTimeout(() => msg2.style.opacity = 1, 2000);
-        setTimeout(() => msg3.style.opacity = 1, 3500);
-        setTimeout(() => moreBtn.style.opacity = 1, 5000);
-    }
-});
-
-/* LÓGICA DO BOTÃO MAIS */
-const extraScreen = document.getElementById('extraScreen');
-const extraPhrase = document.getElementById('extraPhrase');
-const finalBox = document.getElementById('finalBox');
-
-moreBtn.onclick = () => {
-    main.style.display = 'none';
-    extraScreen.style.display = 'flex';
-
-    // Sequência de animação: Frase -> Caixa
+// 2. DO DESENHO PARA A CAIXA
+nextBtn.onclick = () => {
+    digitalScreen.style.opacity = '0';
     setTimeout(() => {
-        extraPhrase.style.opacity = 1;
-        
-        setTimeout(() => {
-            finalBox.classList.add('show');
-        }, 2000); // Espera 2 segundos após a frase para mostrar a caixa
-        
-    }, 100);
+        digitalScreen.style.display = 'none';
+        mainContent.style.display = 'flex';
+    }, 1000);
 };
 
-function voltar() {
-    extraScreen.style.display = 'none';
-    main.style.display = 'flex';
-    // Esconde a caixa de novo caso ele clique em "mais" pela segunda vez
-    finalBox.classList.remove('show');
-    extraPhrase.style.opacity = 0;
-}
+// 3. LÓGICA DA CAIXA
+let clicks = 0;
+const box = document.getElementById('giftBox');
+const giftContainer = document.getElementById('giftContainer');
+
+giftContainer.onclick = () => {
+    if(clicks < 3) {
+        clicks++;
+        box.classList.remove('shake');
+        void box.offsetWidth;
+        box.classList.add('shake');
+        document.getElementById('clickText').innerText = `Faltam ${3-clicks}!`;
+    }
+
+    if(clicks === 3) {
+        giftContainer.style.pointerEvents = 'none';
+        box.classList.add('fall');
+        document.getElementById('revealedCard').style.opacity = '1';
+        
+        // Confetes
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+
+        setTimeout(() => document.getElementById('m1').style.opacity = '1', 800);
+        setTimeout(() => document.getElementById('m2').style.opacity = '1', 1800);
+        setTimeout(() => document.getElementById('m3').style.opacity = '1', 2800);
+        setTimeout(() => document.getElementById('moreBtn').style.display = 'block', 4000);
+    }
+};
+
+// 4. TELA FINAL
+document.getElementById('moreBtn').onclick = () => {
+    mainContent.style.display = 'none';
+    document.getElementById('extraScreen').style.display = 'flex';
+};
 </script>
 
 </body>
