@@ -8,13 +8,32 @@
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet">
 
 <style>
+/* FUNDO ANIMADO */
 body {
     margin: 0;
     padding: 0;
-    background: linear-gradient(to bottom, #2ecc71, #0f0f0f);
+    background: linear-gradient(-45deg, #0f0f0f, #1e3a2b, #0a1f13, #0f0f0f);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
     font-family: Arial, sans-serif;
     color: white;
     overflow-x: hidden;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* EFEITO LIQUID GLASS (GLASSMORPHISM) */
+.glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
 /* INTRO */
@@ -26,8 +45,16 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 10;
+    z-index: 20;
     transition: 1s;
+}
+
+.intro-screen p {
+    font-family: 'Caveat', cursive;
+    font-size: 32px;
+    text-align: center;
+    padding: 20px;
+    margin: 0 20px;
 }
 
 .fade {
@@ -41,13 +68,16 @@ body {
 }
 
 .start-btn {
-    margin-top: 20px;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 20px;
-    background: white;
-    color: #2ecc71;
+    margin-top: 30px;
+    padding: 12px 40px;
+    font-size: 18px;
+    color: #fff;
     cursor: pointer;
+    transition: 0.3s ease;
+}
+.start-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.05);
 }
 
 /* DESENHO */
@@ -60,10 +90,14 @@ body {
     align-items: center;
     opacity: 0;
     transition: 1.5s;
+    z-index: 15;
 }
 
 .digital-img {
-    width: 260px;
+    width: 280px;
+    max-width: 85%;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(46, 204, 113, 0.3);
     opacity: 0;
     transform: scale(1.4);
     transition: 2s ease;
@@ -74,14 +108,22 @@ body {
 }
 
 /* VINIL */
-.vinil {
+.vinil-container {
     position: fixed;
-    bottom: 20px;
-    left: 20px;
-    width: 90px;
+    bottom: -15px;
+    left: -15px;
+    width: 120px;
+    height: 120px;
     opacity: 0;
-    animation: spin 6s linear infinite;
-    transition: 1.5s;
+    transition: 1.5s ease;
+    z-index: 5;
+    pointer-events: none;
+}
+.vinil {
+    width: 100%;
+    height: 100%;
+    animation: spin 4s linear infinite;
+    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.5));
 }
 
 @keyframes spin {
@@ -94,97 +136,116 @@ body {
     display: none;
     flex-direction: column;
     align-items: center;
-    padding-top: 40px;
+    min-height: 100vh;
+    padding-top: 10vh;
+    z-index: 10;
 }
 
 /* PRESENTE */
 .container {
     position: relative;
-    width: 300px;
-    height: 300px;
+    width: 280px;
+    max-width: 90%;
+    height: 280px;
     cursor: pointer;
+    margin-bottom: 20px;
 }
 
-.photo {
+/* CARTA DE VIDRO (Substituiu a foto) */
+.glass-card {
     position: absolute;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     opacity: 0;
-    transition: 0.5s;
+    transition: 0.8s ease;
+    padding: 20px;
+    box-sizing: border-box;
 }
-.photo.revealed { opacity: 1; }
+.glass-card.revealed { 
+    opacity: 1; 
+    transform: scale(1.05);
+}
 
 .gift-box {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: #e74c3c;
-    border-radius: 15px;
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    border-radius: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: 1s;
+    transition: 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    z-index: 2;
 }
 
 .gift-box::before {
     content: '';
     position: absolute;
-    width: 40px;
+    width: 45px;
     height: 100%;
-    background: #f1c40f;
+    background: linear-gradient(to right, #f1c40f, #f39c12);
 }
 .gift-box::after {
     content: '';
     position: absolute;
     width: 100%;
-    height: 40px;
-    background: #f1c40f;
+    height: 45px;
+    background: linear-gradient(to bottom, #f1c40f, #f39c12);
+}
+#clickText {
+    position: relative;
+    z-index: 3;
+    font-weight: bold;
+    font-size: 20px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
 }
 
 @keyframes shake {
-    0% { transform: translate(1px,1px); }
-    50% { transform: translate(-2px,2px); }
-    100% { transform: translate(1px,-1px); }
+    0%, 100% { transform: translateX(0) rotate(0); }
+    25% { transform: translateX(-5px) rotate(-3deg); }
+    50% { transform: translateX(5px) rotate(3deg); }
+    75% { transform: translateX(-5px) rotate(-3deg); }
 }
-.shake { animation: shake 0.5s; }
+.shake { animation: shake 0.4s ease-in-out; }
 
 .fall {
-    transform: translateY(160vh) rotate(40deg);
+    transform: translateY(120vh) rotate(45deg);
     opacity: 0;
 }
 
-/* TEXTO */
+/* TEXTOS DA CARTA */
 .message {
     font-family: 'Caveat', cursive;
-    font-size: 26px;
+    font-size: 28px;
+    margin: 10px 0;
     opacity: 0;
-    transition: 1s;
-    text-align: center;
+    transition: 1s ease;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
-/* BOTÕES */
-button {
-    margin-top: 15px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 20px;
+/* BOTÃO MAIS */
+#moreBtn {
+    margin-top: 30px;
+    padding: 10px 30px;
+    font-size: 16px;
+    color: white;
+    opacity: 0;
+    transition: opacity 1s ease, transform 0.3s ease;
     cursor: pointer;
 }
-
-/* FINAL */
-.final {
-    opacity: 0;
-    transition: 2s;
-    text-align: center;
-}
-.final img {
-    width: 200px;
-    margin-top: 10px;
+#moreBtn:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.15);
 }
 
-/* EXTRA */
+/* EXTRA SCREEN */
 #extraScreen {
     display: none;
     flex-direction: column;
@@ -192,127 +253,142 @@ button {
     justify-content: center;
     height: 100vh;
     text-align: center;
+    padding: 20px;
 }
+
+.extra-phrase {
+    font-family: 'Caveat', cursive;
+    font-size: 34px;
+    opacity: 0;
+    transition: 1.5s ease;
+    margin-bottom: 30px;
+}
+
+.final-box {
+    width: 220px;
+    max-width: 80%;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: 1.5s ease;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.4));
+}
+.final-box.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.back-btn {
+    margin-top: 40px;
+    color: white;
+    cursor: pointer;
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- INTRO -->
-<div class="intro-screen" id="intro">
+<div class="intro-screen glass" id="intro" style="border-radius: 0; border: none; box-shadow: none;">
     <p class="fade" id="introText">
         Não consegui te ver pessoalmente… então fiz isso aqui
     </p>
-    <button class="fade start-btn" id="startBtn">vá</button>
+    <button class="fade start-btn glass" id="startBtn">Abrir Presente</button>
 </div>
 
-<!-- DESENHO -->
 <div class="digital-screen" id="digitalScreen">
-    <img src="digital.png" class="digital-img" id="digitalImg">
+    <img src="digital.png" class="digital-img" id="digitalImg" alt="Desenho Digital">
 </div>
 
-<!-- VINIL -->
-<img src="vinil.png" class="vinil" id="vinil">
+<div class="vinil-container" id="vinilContainer">
+    <img src="vinil.png" class="vinil" alt="Vinil tocando">
+</div>
 
-<!-- MAIN -->
 <div class="main" id="mainContent">
+    <div class="container" id="giftContainer">
+        
+        <div class="glass glass-card" id="glassCard">
+            <p class="message" id="msg1">Feliz aniversário, irmão 🎉</p>
+            <p class="message" id="msg2">Tu é importante pra caramba pra mim</p>
+            <p class="message" id="msg3">Isso aqui é só uma parte…</p>
+        </div>
 
-<div class="container" id="giftContainer">
-    <img src="Presente.jpg" class="photo" id="friendPhoto">
-
-    <div class="gift-box" id="giftBox">
-        <p id="clickText">Aperte 3 vezes!</p>
+        <div class="gift-box" id="giftBox">
+            <p id="clickText">Aperte 3 vezes!</p>
+        </div>
     </div>
+
+    <button id="moreBtn" class="glass">mais</button>
 </div>
 
-<p class="message" id="msg1">Feliz aniversário, irmão 🎉</p>
-<p class="message" id="msg2">Tu é importante pra caramba pra mim</p>
-<p class="message" id="msg3">Isso aqui é só uma parte…</p>
-
-<div class="final" id="final">
-<p class="message" style="opacity:1;">
-Eu queria muito te entregar essa caixa…<br>
-mas de algum jeito,<br>
-<b>eu vou fazer ela chegar até você</b>
-</p>
-<img src="caixa.png">
-</div>
-
-<button id="moreBtn" style="opacity:0;">mais</button>
-
-</div>
-
-<!-- EXTRA -->
 <div id="extraScreen">
-<p class="message" style="opacity:1;">
-algum dia essa caixa vai chegar até você
-</p>
-<img src="caixa.png" style="width:200px; margin-top:15px;">
-<button onclick="voltar()">voltar</button>
+    <p class="extra-phrase" id="extraPhrase">
+        Eu queria muito te entregar essa caixa...<br>
+        mas de algum jeito,<br>
+        <b>algum dia ela vai chegar até você.</b>
+    </p>
+    <img src="caixa.png" class="final-box" id="finalBox" alt="Caixa de presente">
+    <button onclick="voltar()" class="glass back-btn">voltar</button>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <script>
+// Elementos Intro e Tela
 const introText = document.getElementById('introText');
 const startBtn = document.getElementById('startBtn');
 const intro = document.getElementById('intro');
-
 const digitalScreen = document.getElementById('digitalScreen');
 const digitalImg = document.getElementById('digitalImg');
-const vinil = document.getElementById('vinil');
-
+const vinilContainer = document.getElementById('vinilContainer');
 const main = document.getElementById('mainContent');
 
+// Áudio
 const musicaIntro = new Audio('aero.mp3');
-const musica = new Audio('musica.mp3');
+musicaIntro.loop = true; // Deixa o áudio tocando em loop
 
-setTimeout(()=> introText.classList.add('show'),200);
-setTimeout(()=> startBtn.classList.add('show'),1800);
+// Animações de entrada
+setTimeout(() => introText.classList.add('show'), 200);
+setTimeout(() => startBtn.classList.add('show'), 1800);
 
 startBtn.onclick = () => {
-    musicaIntro.play();
-
+    musicaIntro.play(); // Inicia e não para mais
     intro.style.opacity = 0;
 
-    setTimeout(()=>{
-        intro.style.display='none';
+    setTimeout(() => {
+        intro.style.display = 'none';
         digitalScreen.style.opacity = 1;
+        vinilContainer.style.opacity = 1; // Revela o vinil girando
 
-        vinil.style.opacity = 0.8;
+        setTimeout(() => digitalImg.classList.add('show'), 200);
 
-        setTimeout(()=> digitalImg.classList.add('show'),200);
-
-        // confete intro
-        let end = Date.now()+3000;
-        (function frame(){
-            confetti({particleCount:6,angle:60,spread:70,origin:{x:0}});
-            confetti({particleCount:6,angle:120,spread:70,origin:{x:1}});
-            if(Date.now()<end) requestAnimationFrame(frame);
+        // Confetes intro
+        let end = Date.now() + 3000;
+        (function frame() {
+            confetti({ particleCount: 6, angle: 60, spread: 70, origin: { x: 0 }, colors: ['#2ecc71', '#ffffff'] });
+            confetti({ particleCount: 6, angle: 120, spread: 70, origin: { x: 1 }, colors: ['#2ecc71', '#ffffff'] });
+            if (Date.now() < end) requestAnimationFrame(frame);
         })();
 
-        setTimeout(()=>{
-            digitalScreen.style.opacity=0;
-
-            setTimeout(()=>{
-                main.style.display='flex';
-            },800);
-
-        },4000);
-
-    },1000);
+        setTimeout(() => {
+            digitalScreen.style.opacity = 0;
+            
+            setTimeout(() => {
+                digitalScreen.style.display = 'none'; // Resolve o bug da tela invisível
+                main.style.display = 'flex';
+            }, 800);
+        }, 4000);
+    }, 1000);
 };
 
-/* PRESENTE */
+/* LÓGICA DO PRESENTE */
 const box = document.getElementById('giftBox');
-const photo = document.getElementById('friendPhoto');
+const glassCard = document.getElementById('glassCard');
 const container = document.getElementById('giftContainer');
 const clickText = document.getElementById('clickText');
 
 const msg1 = document.getElementById('msg1');
 const msg2 = document.getElementById('msg2');
 const msg3 = document.getElementById('msg3');
-const final = document.getElementById('final');
 const moreBtn = document.getElementById('moreBtn');
 
 let clicks = 0;
@@ -320,8 +396,9 @@ let clicks = 0;
 container.addEventListener('click', () => {
     clicks++;
 
+    // Reinicia a animação de tremor
     box.classList.remove('shake');
-    void box.offsetWidth;
+    void box.offsetWidth; 
 
     if (clicks < 3) {
         box.classList.add('shake');
@@ -329,36 +406,52 @@ container.addEventListener('click', () => {
     }
 
     if (clicks === 3) {
-        container.style.pointerEvents='none';
-
+        container.style.pointerEvents = 'none'; // Impede mais cliques
         box.classList.add('fall');
-        photo.classList.add('revealed');
+        glassCard.classList.add('revealed');
 
-        musica.play();
-
-        let end = Date.now()+4000;
-        (function frame(){
-            confetti({particleCount:6,angle:60,spread:60,origin:{x:0}});
-            confetti({particleCount:6,angle:120,spread:60,origin:{x:1}});
-            if(Date.now()<end) requestAnimationFrame(frame);
+        // Mais confetes para a revelação
+        let end = Date.now() + 4000;
+        (function frame() {
+            confetti({ particleCount: 8, angle: 60, spread: 60, origin: { x: 0 } });
+            confetti({ particleCount: 8, angle: 120, spread: 60, origin: { x: 1 } });
+            if (Date.now() < end) requestAnimationFrame(frame);
         })();
 
-        setTimeout(()=> msg1.style.opacity=1,800);
-        setTimeout(()=> msg2.style.opacity=1,2000);
-        setTimeout(()=> msg3.style.opacity=1,3500);
-        setTimeout(()=> final.style.opacity=1,6000);
-        setTimeout(()=> moreBtn.style.opacity=1,6500);
+        // Revela as mensagens sequencialmente dentro do card de vidro
+        setTimeout(() => msg1.style.opacity = 1, 800);
+        setTimeout(() => msg2.style.opacity = 1, 2000);
+        setTimeout(() => msg3.style.opacity = 1, 3500);
+        setTimeout(() => moreBtn.style.opacity = 1, 5000);
     }
 });
 
+/* LÓGICA DO BOTÃO MAIS */
+const extraScreen = document.getElementById('extraScreen');
+const extraPhrase = document.getElementById('extraPhrase');
+const finalBox = document.getElementById('finalBox');
+
 moreBtn.onclick = () => {
-    main.style.display='none';
-    document.getElementById('extraScreen').style.display='flex';
+    main.style.display = 'none';
+    extraScreen.style.display = 'flex';
+
+    // Sequência de animação: Frase -> Caixa
+    setTimeout(() => {
+        extraPhrase.style.opacity = 1;
+        
+        setTimeout(() => {
+            finalBox.classList.add('show');
+        }, 2000); // Espera 2 segundos após a frase para mostrar a caixa
+        
+    }, 100);
 };
 
-function voltar(){
-    document.getElementById('extraScreen').style.display='none';
-    main.style.display='flex';
+function voltar() {
+    extraScreen.style.display = 'none';
+    main.style.display = 'flex';
+    // Esconde a caixa de novo caso ele clique em "mais" pela segunda vez
+    finalBox.classList.remove('show');
+    extraPhrase.style.opacity = 0;
 }
 </script>
 
