@@ -150,7 +150,7 @@ button:hover{
 
     object-fit:cover;
 
-    border-radius:50%;
+    border-radius:18px;
 
     opacity:0;
 
@@ -781,15 +781,13 @@ moreBtn.onclick = ()=>{
 
 function voltar(){
 
-    extraScreen.style.display =
-    'none';
+    extraScreen.style.display = 'none';
 
-    main.style.display =
-    'flex';
+    digitalScreen.style.display = 'flex';
 
-    extraPhrase.style.opacity = 0;
-
-    finalBox.classList.remove('show');
+    setTimeout(()=>{
+        digitalScreen.style.opacity = 1;
+    },50);
 
 }
 
