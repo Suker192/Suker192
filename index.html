@@ -17,17 +17,6 @@ body {
     overflow-x: hidden;
 }
 
-/* ANIMAÇÕES GERAIS */
-.fade {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 1.2s ease;
-}
-.fade.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
 /* INTRO */
 .intro-screen {
     position: fixed;
@@ -37,30 +26,28 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(to bottom, #2ecc71, #0f0f0f);
     z-index: 10;
-    transition: 1s ease;
+    transition: 1s;
 }
 
-.intro-text {
-    font-size: 24px;
-    text-align: center;
-    max-width: 80%;
+.fade {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 1.2s ease;
+}
+.fade.show {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .start-btn {
-    margin-top: 25px;
-    padding: 12px 28px;
-    font-size: 18px;
+    margin-top: 20px;
+    padding: 12px 25px;
     border: none;
-    border-radius: 25px;
+    border-radius: 20px;
     background: white;
     color: #2ecc71;
     cursor: pointer;
-    transition: 0.3s;
-}
-.start-btn:hover {
-    transform: scale(1.05);
 }
 
 /* DESENHO */
@@ -71,21 +58,35 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(to bottom, #2ecc71, #0f0f0f);
     opacity: 0;
-    z-index: 9;
-    transition: opacity 1.5s ease;
+    transition: 1.5s;
 }
 
 .digital-img {
-    width: 280px;
+    width: 260px;
     opacity: 0;
     transform: scale(1.4);
-    transition: all 2s ease;
+    transition: 2s ease;
 }
 .digital-img.show {
     opacity: 1;
     transform: scale(1);
+}
+
+/* VINIL */
+.vinil {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 90px;
+    opacity: 0;
+    animation: spin 6s linear infinite;
+    transition: 1.5s;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 /* MAIN */
@@ -94,11 +95,6 @@ body {
     flex-direction: column;
     align-items: center;
     padding-top: 40px;
-    animation: fadeMain 1.5s ease;
-}
-@keyframes fadeMain {
-    from { opacity: 0; }
-    to { opacity: 1; }
 }
 
 /* PRESENTE */
@@ -107,7 +103,6 @@ body {
     width: 300px;
     height: 300px;
     cursor: pointer;
-    margin-bottom: 20px;
 }
 
 .photo {
@@ -117,11 +112,9 @@ body {
     object-fit: cover;
     border-radius: 15px;
     opacity: 0;
-    transition: opacity 0.8s ease;
+    transition: 0.5s;
 }
-.photo.revealed {
-    opacity: 1;
-}
+.photo.revealed { opacity: 1; }
 
 .gift-box {
     position: absolute;
@@ -132,8 +125,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    transition: transform 1s ease, opacity 1s ease;
+    transition: 1s;
 }
 
 .gift-box::before {
@@ -151,53 +143,55 @@ body {
     background: #f1c40f;
 }
 
-.gift-box p {
-    background: white;
-    color: #e74c3c;
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-weight: bold;
-}
-
-/* SHAKE MAIS SUAVE */
 @keyframes shake {
     0% { transform: translate(1px,1px); }
-    25% { transform: translate(-2px,2px); }
-    50% { transform: translate(2px,-2px); }
-    75% { transform: translate(-1px,1px); }
+    50% { transform: translate(-2px,2px); }
     100% { transform: translate(1px,-1px); }
 }
-.shake {
-    animation: shake 0.5s ease;
-}
+.shake { animation: shake 0.5s; }
 
-/* QUEDA MAIS SUAVE */
 .fall {
     transform: translateY(160vh) rotate(40deg);
     opacity: 0;
 }
 
-/* MENSAGENS */
+/* TEXTO */
 .message {
     font-family: 'Caveat', cursive;
     font-size: 26px;
-    text-align: center;
     opacity: 0;
-    transition: all 1s ease;
-    margin: 10px;
+    transition: 1s;
+    text-align: center;
+}
+
+/* BOTÕES */
+button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
 }
 
 /* FINAL */
 .final {
     opacity: 0;
-    margin-top: 60px;
+    transition: 2s;
     text-align: center;
-    transition: opacity 2s ease;
 }
 .final img {
-    width: 220px;
-    border-radius: 15px;
+    width: 200px;
     margin-top: 10px;
+}
+
+/* EXTRA */
+#extraScreen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
 }
 </style>
 </head>
@@ -206,10 +200,10 @@ body {
 
 <!-- INTRO -->
 <div class="intro-screen" id="intro">
-    <p class="intro-text fade" id="introText">
+    <p class="fade" id="introText">
         Não consegui te ver pessoalmente… então fiz isso aqui
     </p>
-    <button class="start-btn fade" id="startBtn">vá</button>
+    <button class="fade start-btn" id="startBtn">vá</button>
 </div>
 
 <!-- DESENHO -->
@@ -217,30 +211,44 @@ body {
     <img src="digital.png" class="digital-img" id="digitalImg">
 </div>
 
+<!-- VINIL -->
+<img src="vinil.png" class="vinil" id="vinil">
+
 <!-- MAIN -->
 <div class="main" id="mainContent">
 
-    <div class="container" id="giftContainer">
-        <img src="Presente.jpg" class="photo" id="friendPhoto">
+<div class="container" id="giftContainer">
+    <img src="Presente.jpg" class="photo" id="friendPhoto">
 
-        <div class="gift-box" id="giftBox">
-            <p id="clickText">Aperte 3 vezes!</p>
-        </div>
+    <div class="gift-box" id="giftBox">
+        <p id="clickText">Aperte 3 vezes!</p>
     </div>
+</div>
 
-    <p class="message" id="msg1">Feliz aniversário, irmão 🎉</p>
-    <p class="message" id="msg2">Tu é importante pra caramba pra mim</p>
-    <p class="message" id="msg3">Isso aqui é só uma parte…</p>
+<p class="message" id="msg1">Feliz aniversário, irmão 🎉</p>
+<p class="message" id="msg2">Tu é importante pra caramba pra mim</p>
+<p class="message" id="msg3">Isso aqui é só uma parte…</p>
 
-    <div class="final" id="final">
-        <p class="message" style="opacity:1;">
-            Eu queria muito te entregar essa caixa…<br>
-            mas de algum jeito,<br>
-            <b>eu vou fazer ela chegar até você</b>
-        </p>
-        <img src="caixa.png">
-    </div>
+<div class="final" id="final">
+<p class="message" style="opacity:1;">
+Eu queria muito te entregar essa caixa…<br>
+mas de algum jeito,<br>
+<b>eu vou fazer ela chegar até você</b>
+</p>
+<img src="caixa.png">
+</div>
 
+<button id="moreBtn" style="opacity:0;">mais</button>
+
+</div>
+
+<!-- EXTRA -->
+<div id="extraScreen">
+<p class="message" style="opacity:1;">
+algum dia essa caixa vai chegar até você
+</p>
+<img src="caixa.png" style="width:200px; margin-top:15px;">
+<button onclick="voltar()">voltar</button>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -252,43 +260,47 @@ const intro = document.getElementById('intro');
 
 const digitalScreen = document.getElementById('digitalScreen');
 const digitalImg = document.getElementById('digitalImg');
+const vinil = document.getElementById('vinil');
 
 const main = document.getElementById('mainContent');
 
 const musicaIntro = new Audio('aero.mp3');
 const musica = new Audio('musica.mp3');
 
-setTimeout(() => {
-    introText.classList.add('show');
-}, 200);
-
-setTimeout(() => {
-    startBtn.classList.add('show');
-}, 1800);
+setTimeout(()=> introText.classList.add('show'),200);
+setTimeout(()=> startBtn.classList.add('show'),1800);
 
 startBtn.onclick = () => {
     musicaIntro.play();
 
     intro.style.opacity = 0;
 
-    setTimeout(() => {
-        intro.style.display = 'none';
+    setTimeout(()=>{
+        intro.style.display='none';
         digitalScreen.style.opacity = 1;
 
-        setTimeout(() => {
-            digitalImg.classList.add('show');
-        }, 200);
+        vinil.style.opacity = 0.8;
 
-        setTimeout(() => {
-            digitalScreen.style.opacity = 0;
+        setTimeout(()=> digitalImg.classList.add('show'),200);
 
-            setTimeout(() => {
-                main.style.display = 'flex';
-            }, 800);
+        // confete intro
+        let end = Date.now()+3000;
+        (function frame(){
+            confetti({particleCount:6,angle:60,spread:70,origin:{x:0}});
+            confetti({particleCount:6,angle:120,spread:70,origin:{x:1}});
+            if(Date.now()<end) requestAnimationFrame(frame);
+        })();
 
-        }, 4000);
+        setTimeout(()=>{
+            digitalScreen.style.opacity=0;
 
-    }, 1000);
+            setTimeout(()=>{
+                main.style.display='flex';
+            },800);
+
+        },4000);
+
+    },1000);
 };
 
 /* PRESENTE */
@@ -301,6 +313,7 @@ const msg1 = document.getElementById('msg1');
 const msg2 = document.getElementById('msg2');
 const msg3 = document.getElementById('msg3');
 const final = document.getElementById('final');
+const moreBtn = document.getElementById('moreBtn');
 
 let clicks = 0;
 
@@ -316,27 +329,37 @@ container.addEventListener('click', () => {
     }
 
     if (clicks === 3) {
-        container.style.pointerEvents = 'none';
+        container.style.pointerEvents='none';
 
         box.classList.add('fall');
         photo.classList.add('revealed');
 
         musica.play();
 
-        let end = Date.now() + 4000;
-        (function frame() {
-            confetti({ particleCount: 6, angle: 60, spread: 60, origin: { x: 0 } });
-            confetti({ particleCount: 6, angle: 120, spread: 60, origin: { x: 1 } });
-            if (Date.now() < end) requestAnimationFrame(frame);
+        let end = Date.now()+4000;
+        (function frame(){
+            confetti({particleCount:6,angle:60,spread:60,origin:{x:0}});
+            confetti({particleCount:6,angle:120,spread:60,origin:{x:1}});
+            if(Date.now()<end) requestAnimationFrame(frame);
         })();
 
-        setTimeout(() => msg1.style.opacity = 1, 800);
-        setTimeout(() => msg2.style.opacity = 1, 2000);
-        setTimeout(() => msg3.style.opacity = 1, 3500);
-
-        setTimeout(() => final.style.opacity = 1, 6000);
+        setTimeout(()=> msg1.style.opacity=1,800);
+        setTimeout(()=> msg2.style.opacity=1,2000);
+        setTimeout(()=> msg3.style.opacity=1,3500);
+        setTimeout(()=> final.style.opacity=1,6000);
+        setTimeout(()=> moreBtn.style.opacity=1,6500);
     }
 });
+
+moreBtn.onclick = () => {
+    main.style.display='none';
+    document.getElementById('extraScreen').style.display='flex';
+};
+
+function voltar(){
+    document.getElementById('extraScreen').style.display='none';
+    main.style.display='flex';
+}
 </script>
 
 </body>
