@@ -812,6 +812,22 @@ function voltar(){
 
 }
 
+/* PAUSAR MÚSICA QUANDO SAIR DA ABA */
+
+document.addEventListener("visibilitychange", () => {
+
+    if(document.hidden){
+
+        musicaIntro.pause();
+
+    } else {
+
+        musicaIntro.play();
+
+    }
+
+});    
+
 </script>
 
 </body>
