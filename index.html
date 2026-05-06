@@ -1,43 +1,47 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Um Presente Especial</title>
+<title>pra você</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet">
 
 <style>
 
-/* =========================
-   BASE
-========================= */
+/* ================= BASE ================= */
 
 html, body{
     margin:0;
     padding:0;
+    overflow:hidden;
     min-height:100vh;
-    overflow-x:hidden;
     background:#0f0f0f;
 }
 
 body{
-    background: linear-gradient(-45deg, #0f0f0f, #1a3325, #102118, #0f0f0f);
-    background-size:400% 400%;
-    animation:gradientBG 15s ease infinite;
     font-family:Arial, sans-serif;
     color:white;
+
+    background:
+    linear-gradient(
+    -45deg,
+    #0f0f0f,
+    #173324,
+    #102118,
+    #0f0f0f);
+
+    background-size:400% 400%;
+    animation:bg 15s ease infinite;
 }
 
-@keyframes gradientBG{
+@keyframes bg{
     0%{background-position:0% 50%;}
     50%{background-position:100% 50%;}
     100%{background-position:0% 50%;}
 }
 
-/* =========================
-   ANIMAÇÕES
-========================= */
+/* ================= ANIMAÇÕES ================= */
 
 .fade{
     opacity:0;
@@ -51,8 +55,13 @@ body{
 }
 
 @keyframes spin{
-    from{transform:rotate(0deg);}
-    to{transform:rotate(360deg);}
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
 }
 
 @keyframes shake{
@@ -63,72 +72,95 @@ body{
     100%{transform:translateX(0);}
 }
 
-/* =========================
-   INTRO
-========================= */
+/* ================= BOTÕES ================= */
+
+button{
+    border:none;
+    border-radius:25px;
+    padding:12px 28px;
+
+    background:rgba(255,255,255,0.08);
+
+    border:1px solid rgba(255,255,255,0.15);
+
+    backdrop-filter:blur(10px);
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:0.3s ease;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+/* ================= INTRO ================= */
 
 .intro-screen{
     position:fixed;
     width:100%;
     height:100vh;
+
     display:flex;
     flex-direction:column;
     justify-content:center;
     align-items:center;
+
     z-index:20;
+
     transition:1s ease;
 }
 
 .intro-text{
     font-family:'Caveat', cursive;
-    font-size:34px;
+    font-size:35px;
     text-align:center;
     max-width:85%;
 }
 
 .start-btn{
     margin-top:30px;
-    padding:12px 35px;
-    border:none;
-    border-radius:25px;
-    background:rgba(255,255,255,0.08);
-    border:1px solid rgba(255,255,255,0.15);
-    color:white;
-    backdrop-filter:blur(10px);
-    font-size:17px;
-    cursor:pointer;
-    transition:0.3s ease;
 }
 
-.start-btn:hover{
-    transform:scale(1.05);
-}
-
-/* =========================
-   DESENHO
-========================= */
+/* ================= DESENHO ================= */
 
 .digital-screen{
     position:fixed;
     width:100%;
     height:100vh;
+
     display:flex;
+    flex-direction:column;
     justify-content:center;
     align-items:center;
+
     opacity:0;
     transition:1.5s ease;
+
     z-index:15;
+
     pointer-events:none;
 }
 
 .digital-img{
     width:280px;
-    max-width:85%;
-    border-radius:18px;
+    height:280px;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
     opacity:0;
+
     transform:scale(1.4);
+
     transition:2s ease;
-    box-shadow:0 0 25px rgba(46,204,113,0.25);
+
+    box-shadow:
+    0 0 30px rgba(46,204,113,0.25),
+    0 0 80px rgba(46,204,113,0.12);
 }
 
 .digital-img.show{
@@ -136,81 +168,126 @@ body{
     transform:scale(1);
 }
 
-/* =========================
-   VINIL
-========================= */
+.continue-btn{
+    margin-top:35px;
+    opacity:0;
+    transition:1s ease;
+}
+
+/* ================= VINIL ================= */
 
 .vinil-container{
-    position:fixed;
-    bottom:20px;
-    left:20px;
-    width:90px;
-    height:90px;
-    opacity:0;
-    transition:1.5s ease;
-    z-index:999;
-    pointer-events:none;
+    position: fixed;
+
+    bottom: 20px;
+    left: 20px;
+
+    width: 90px;
+    height: 90px;
+
+    opacity: 0;
+
+    transition: 1.5s ease;
+
+    z-index: 999;
+
+    pointer-events: none;
 }
 
 .vinil{
-    width:100%;
-    height:100%;
-    animation:spin 5s linear infinite;
-    opacity:0.8;
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    animation: spin 5s linear infinite;
+
+    opacity: 0.85;
+
+    box-shadow:
+    0 0 10px rgba(0,0,0,0.4),
+    0 0 20px rgba(255,255,255,0.05);
 }
 
-/* =========================
-   MAIN
-========================= */
+/* ================= MAIN ================= */
 
 .main{
     display:none;
     flex-direction:column;
     align-items:center;
+
     min-height:100vh;
+
     padding-top:8vh;
 }
 
-/* =========================
-   PRESENTE
-========================= */
+/* ================= PRESENTE ================= */
 
 .container{
     position:relative;
+
     width:280px;
     height:280px;
-    max-width:90%;
+
     cursor:pointer;
 }
 
 .gift-box{
     position:absolute;
+
     width:100%;
     height:100%;
-    border-radius:20px;
-    background:linear-gradient(135deg, #e74c3c, #c0392b);
+
+    border-radius:22px;
+
+    background:
+    linear-gradient(
+    135deg,
+    #e74c3c,
+    #c0392b);
+
     display:flex;
     justify-content:center;
     align-items:center;
+
     transition:1s ease;
-    box-shadow:0 10px 30px rgba(0,0,0,0.45);
+
     overflow:hidden;
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,0.45);
 }
 
 .gift-box::before{
     content:'';
+
     position:absolute;
+
     width:45px;
     height:100%;
+
     background:#f1c40f;
 }
 
 .gift-box::after{
     content:'';
+
     position:absolute;
+
     width:100%;
     height:45px;
+
     background:#f1c40f;
+}
+
+#clickText{
+    position:relative;
+    z-index:2;
+
+    font-size:20px;
+    font-weight:bold;
 }
 
 .shake{
@@ -218,38 +295,39 @@ body{
 }
 
 .fall{
-    transform:translateY(120vh) rotate(35deg);
+    transform:
+    translateY(120vh)
+    rotate(35deg);
+
     opacity:0;
 }
 
-#clickText{
-    position:relative;
-    z-index:2;
-    font-size:20px;
-    font-weight:bold;
-    text-shadow:0 2px 4px rgba(0,0,0,0.5);
-}
-
-/* =========================
-   CARTA
-========================= */
+/* ================= CARTA ================= */
 
 .glass-card{
     position:absolute;
+
     width:100%;
     height:100%;
-    border-radius:20px;
+
+    border-radius:22px;
+
     display:flex;
     flex-direction:column;
     justify-content:center;
     align-items:center;
+
     text-align:center;
 
-    background:rgba(20,20,20,0.35);
+    background:
+    rgba(20,20,20,0.35);
+
     backdrop-filter:blur(12px);
+
     border:1px solid rgba(255,255,255,0.08);
 
     opacity:0;
+
     transition:1s ease;
 }
 
@@ -259,72 +337,68 @@ body{
 
 .message{
     font-family:'Caveat', cursive;
+
     font-size:30px;
+
     margin:10px;
+
     opacity:0;
+
     transition:1s ease;
 }
 
-/* =========================
-   INSTRUÇÃO
-========================= */
+/* ================= INSTRUÇÃO ================= */
 
 .instruction{
-    margin-top:18px;
-    font-size:15px;
+    margin-top:20px;
     opacity:0.7;
-    text-align:center;
+    font-size:15px;
 }
 
-/* =========================
-   BOTÃO MAIS
-========================= */
+/* ================= MAIS ================= */
 
 #moreBtn{
     margin-top:30px;
-    padding:10px 28px;
-    border:none;
-    border-radius:20px;
-    background:rgba(255,255,255,0.08);
-    border:1px solid rgba(255,255,255,0.15);
-    color:white;
-    backdrop-filter:blur(10px);
-    cursor:pointer;
     opacity:0;
-    transition:0.5s ease;
 }
 
-#moreBtn:hover{
-    transform:scale(1.05);
-}
-
-/* =========================
-   EXTRA
-========================= */
+/* ================= EXTRA ================= */
 
 #extraScreen{
     display:none;
+
     flex-direction:column;
     justify-content:center;
     align-items:center;
+
     min-height:100vh;
+
     text-align:center;
+
     padding:20px;
 }
 
 .extra-phrase{
     font-family:'Caveat', cursive;
+
     font-size:38px;
+
     opacity:0;
+
     transition:1.5s ease;
 }
 
 .final-box{
     width:220px;
+
     max-width:85%;
+
     margin-top:25px;
+
     opacity:0;
+
     transform:translateY(20px);
+
     transition:1.5s ease;
 }
 
@@ -333,27 +407,13 @@ body{
     transform:translateY(0);
 }
 
-/* =========================
-   VOLTAR
-========================= */
+/* ================= VOLTAR ================= */
 
 .back-btn{
     position:fixed;
+
     top:20px;
     left:20px;
-
-    padding:10px 20px;
-
-    border:none;
-    border-radius:20px;
-
-    background:rgba(255,255,255,0.08);
-    border:1px solid rgba(255,255,255,0.15);
-
-    color:white;
-    backdrop-filter:blur(10px);
-
-    cursor:pointer;
 }
 
 </style>
@@ -361,6 +421,7 @@ body{
 <body>
 
 <!-- INTRO -->
+
 <div class="intro-screen" id="intro">
 
     <p class="intro-text fade" id="introText">
@@ -374,50 +435,72 @@ body{
 </div>
 
 <!-- DESENHO -->
+
 <div class="digital-screen" id="digitalScreen">
-    <img src="digital.png" class="digital-img" id="digitalImg">
+
+    <img src="digital.png"
+    class="digital-img"
+    id="digitalImg">
+
+    <button class="continue-btn"
+    id="continueBtn">
+        continuar
+    </button>
+
 </div>
 
 <!-- VINIL -->
-<div class="vinil-container" id="vinilContainer">
-    <img src="vinil.png" class="vinil">
+
+<div class="vinil-container"
+id="vinilContainer">
+
+    <img src="vinil.png"
+    class="vinil">
+
 </div>
 
 <!-- MAIN -->
+
 <div class="main" id="mainContent">
 
-    <div class="container" id="giftContainer">
+    <div class="container"
+    id="giftContainer">
 
-        <!-- CARTA -->
-        <div class="glass-card" id="glassCard">
+        <div class="glass-card"
+        id="glassCard">
 
-            <p class="message" id="msg1">
+            <p class="message"
+            id="msg1">
                 Feliz aniversário, irmão 🎉
             </p>
 
-            <p class="message" id="msg2">
+            <p class="message"
+            id="msg2">
                 Tu é importante pra caramba pra mim
             </p>
 
-            <p class="message" id="msg3">
+            <p class="message"
+            id="msg3">
                 Isso aqui é só uma parte…
             </p>
 
         </div>
 
-        <!-- CAIXA -->
-        <div class="gift-box" id="giftBox">
-            <p id="clickText">Aperte 3 vezes!</p>
+        <div class="gift-box"
+        id="giftBox">
+
+            <p id="clickText">
+                Aperte 3 vezes!
+            </p>
+
         </div>
 
     </div>
 
-    <!-- INSTRUÇÃO -->
     <p class="instruction">
         clique no presente 3 vezes para abrir
     </p>
 
-    <!-- MAIS -->
     <button id="moreBtn">
         mais
     </button>
@@ -425,19 +508,28 @@ body{
 </div>
 
 <!-- EXTRA -->
+
 <div id="extraScreen">
 
-    <button class="back-btn" onclick="voltar()">
+    <button class="back-btn"
+    onclick="voltar()">
         voltar
     </button>
 
-    <p class="extra-phrase" id="extraPhrase">
+    <p class="extra-phrase"
+    id="extraPhrase">
+
         Eu queria muito te entregar essa caixa…<br>
+
         mas de algum jeito,<br>
-        <b>algum dia ela vai chegar até você.</b>
+
+        <b>eu vou fazer ela chegar até você.</b>
+
     </p>
 
-    <img src="caixa.png" class="final-box" id="finalBox">
+    <img src="caixa.png"
+    class="final-box"
+    id="finalBox">
 
 </div>
 
@@ -445,27 +537,46 @@ body{
 
 <script>
 
-/* =========================
-   ELEMENTOS
-========================= */
+/* INTRO */
 
-const intro = document.getElementById('intro');
-const introText = document.getElementById('introText');
-const startBtn = document.getElementById('startBtn');
+const intro =
+document.getElementById('intro');
 
-const digitalScreen = document.getElementById('digitalScreen');
-const digitalImg = document.getElementById('digitalImg');
+const introText =
+document.getElementById('introText');
 
-const vinilContainer = document.getElementById('vinilContainer');
+const startBtn =
+document.getElementById('startBtn');
 
-const main = document.getElementById('mainContent');
+/* DESENHO */
 
-const musicaIntro = new Audio('aero.mp3');
+const digitalScreen =
+document.getElementById('digitalScreen');
+
+const digitalImg =
+document.getElementById('digitalImg');
+
+const continueBtn =
+document.getElementById('continueBtn');
+
+/* VINIL */
+
+const vinilContainer =
+document.getElementById('vinilContainer');
+
+/* MAIN */
+
+const main =
+document.getElementById('mainContent');
+
+/* ÁUDIO */
+
+const musicaIntro =
+new Audio('aero.mp3');
+
 musicaIntro.loop = true;
 
-/* =========================
-   INTRO
-========================= */
+/* INTRO */
 
 setTimeout(()=>{
     introText.classList.add('show');
@@ -475,7 +586,7 @@ setTimeout(()=>{
     startBtn.classList.add('show');
 },1500);
 
-startBtn.onclick = () => {
+startBtn.onclick = ()=>{
 
     musicaIntro.play();
 
@@ -486,14 +597,20 @@ startBtn.onclick = () => {
         intro.style.display = 'none';
 
         digitalScreen.style.opacity = 1;
+
         vinilContainer.style.opacity = 1;
 
         setTimeout(()=>{
             digitalImg.classList.add('show');
         },300);
 
-        /* CONFETE INTRO */
-        let end = Date.now() + 3000;
+        setTimeout(()=>{
+            continueBtn.style.opacity = 1;
+            digitalScreen.style.pointerEvents = 'all';
+        },1800);
+
+        let end =
+        Date.now() + 3000;
 
         (function frame(){
 
@@ -517,36 +634,48 @@ startBtn.onclick = () => {
 
         })();
 
-        setTimeout(()=>{
-
-            digitalScreen.style.opacity = 0;
-
-            setTimeout(()=>{
-                digitalScreen.style.display = 'none';
-                main.style.display = 'flex';
-            },1500);
-
-        },4000);
-
     },1000);
 
 };
 
-/* =========================
-   PRESENTE
-========================= */
+/* CONTINUAR */
 
-const container = document.getElementById('giftContainer');
-const box = document.getElementById('giftBox');
-const clickText = document.getElementById('clickText');
+continueBtn.onclick = ()=>{
 
-const glassCard = document.getElementById('glassCard');
+    digitalScreen.style.opacity = 0;
 
-const msg1 = document.getElementById('msg1');
-const msg2 = document.getElementById('msg2');
-const msg3 = document.getElementById('msg3');
+    setTimeout(()=>{
+        digitalScreen.style.display = 'none';
+        main.style.display = 'flex';
+    },1200);
 
-const moreBtn = document.getElementById('moreBtn');
+};
+
+/* PRESENTE */
+
+const container =
+document.getElementById('giftContainer');
+
+const box =
+document.getElementById('giftBox');
+
+const clickText =
+document.getElementById('clickText');
+
+const glassCard =
+document.getElementById('glassCard');
+
+const msg1 =
+document.getElementById('msg1');
+
+const msg2 =
+document.getElementById('msg2');
+
+const msg3 =
+document.getElementById('msg3');
+
+const moreBtn =
+document.getElementById('moreBtn');
 
 let clicks = 0;
 
@@ -555,6 +684,7 @@ container.addEventListener('click', ()=>{
     clicks++;
 
     box.classList.remove('shake');
+
     void box.offsetWidth;
 
     if(clicks < 3){
@@ -568,14 +698,16 @@ container.addEventListener('click', ()=>{
 
     if(clicks === 3){
 
-        container.style.pointerEvents = 'none';
+        container.style.pointerEvents =
+        'none';
 
         box.classList.add('fall');
 
-        glassCard.classList.add('revealed');
+        glassCard.classList.add(
+        'revealed');
 
-        /* CONFETE */
-        let end = Date.now() + 4000;
+        let end =
+        Date.now() + 4000;
 
         (function frame(){
 
@@ -619,19 +751,23 @@ container.addEventListener('click', ()=>{
 
 });
 
-/* =========================
-   EXTRA
-========================= */
+/* EXTRA */
 
-const extraScreen = document.getElementById('extraScreen');
-const extraPhrase = document.getElementById('extraPhrase');
-const finalBox = document.getElementById('finalBox');
+const extraScreen =
+document.getElementById('extraScreen');
 
-moreBtn.onclick = () => {
+const extraPhrase =
+document.getElementById('extraPhrase');
+
+const finalBox =
+document.getElementById('finalBox');
+
+moreBtn.onclick = ()=>{
 
     main.style.display = 'none';
 
-    extraScreen.style.display = 'flex';
+    extraScreen.style.display =
+    'flex';
 
     setTimeout(()=>{
         extraPhrase.style.opacity = 1;
@@ -645,9 +781,11 @@ moreBtn.onclick = () => {
 
 function voltar(){
 
-    extraScreen.style.display = 'none';
+    extraScreen.style.display =
+    'none';
 
-    main.style.display = 'flex';
+    main.style.display =
+    'flex';
 
     extraPhrase.style.opacity = 0;
 
